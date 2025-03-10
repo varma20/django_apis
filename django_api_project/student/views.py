@@ -2,26 +2,33 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
+from datetime import datetime
+
 
 @api_view(['POST'])
 def create_user(request):
-    try:
-        rno = request.data.get('rno')
-        name = request.data.get('name')
-        branch = request.data.get('branch')
-        play_cricket = request.data.get('play_cricket')
-        student = Student(rno=rno,name=name,branch=branch,play_cricket=play_cricket)
-        student.save()
-        return Response({"User Created"},status = 200)
-    except Exception as e:
-        return Response("{User Not Created}",status=200)
+
+    first_name = request.data.get('first_name')
+    last_name = request.data.get('last_name')
+    roll_no = request.data.get('roll_no')
+    branch = request.data.get('branch')
+    backlogs = request.data.get('backlogs')
+    dob = request.data.get('dob')
+    email = request.data.get('email')
+    blood_group = request.data.get('blood_group')
+    student = StudentModel.objects.create(first_name=first_name,last_name=last_name,roll_no=roll_no,branch=branch,backlogs=backlogs,dob=dob,email=email,blood_group=blood_group)
+    student.save()
+
+
+
+    return Response({"User Created"},status = 200)
 
 
 @api_view(['POST'])
 def delete_user(request):
     try:
         rno = request.data.get('rno')
-        student = Student.objects.get(rno=rno)
+        student = StudentModel.objects.get(rno=rno)
         student.delete()
         return Response({'User Deleted'},status=200)
     except Exception as e:
@@ -31,7 +38,7 @@ def delete_user(request):
 def user_details(request):
     try:
         rno = request.data.get('rno')
-        student = Student.objects.get(rno=rno)
+        student = StudentModel.objects.get(rno=rno)
         return Response({
             'Name':student.name,
             'Roll Number' : student.rno,
@@ -47,10 +54,10 @@ def user_details_from_get_request(request):
 
     try:
         roll_no = request.data.get('roll_no')
-        roll_nos_from_query_set = Student.objects.values_list('roll_no',flat=True)
+        roll_nos_from_query_set = (StudentModel.objects.values_list('roll_no',flat=True))
         li_rol_nos = list(roll_nos_from_query_set)
         if roll_no in li_rol_nos:
-            student = Student.objects.get(roll_no = roll_no)
+            student = StudentModel.objects.get(roll_no = roll_no)
             #if student is None:
                 #return Response({"User Not Found"},status=200)
             #else:
@@ -60,7 +67,6 @@ def user_details_from_get_request(request):
                 "Roll Number": student.roll_no,
                 "Branch": student.branch,
                 "Backlogs": student.backlogs,
-                "Percentage": student.percentage,
                 "Date Of Birth": student.dob,
                 "Email Id": student.email,
                 "Blood Group": student.blood_group
@@ -78,10 +84,10 @@ def delete_user_from_delete_request(request):
 
     try:
         roll_no = request.data.get('roll_no')
-        roll_nos_from_query_set = Student.objects.values_list('roll_no', flat=True)
+        roll_nos_from_query_set = StudentModel.objects.values_list('roll_no', flat=True)
         li_roll_nos = list(roll_nos_from_query_set)
         if roll_no in li_roll_nos:
-            student = Student.objects.get(roll_no = roll_no)
+            student = StudentModel.objects.get(roll_no = roll_no)
             student.delete()
             return Response("User Deleted Successfully")
         else:
