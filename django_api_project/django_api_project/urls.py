@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('api.urls'), name="API_SAMPLES"),
     path('student/',include('student.urls'),name = "Student App URL's"),
-    path('accounts/',include('accounts.urls'),name = "Account Urls")
+    path('accounts/',include('accounts.urls'),name = "Account Urls"),
+    path('fullstack/',include('fullstack.urls'),name="Fullstack Urls")
 
 ]

@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'student',
     'accounts',
-    'background_task'
+    'background_task',
+    'fullstack'
 ]
 
 REST_FRAMEWORK = {
