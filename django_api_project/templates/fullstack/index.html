@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignIn</title>
+</head>
+<body>
+
+    <form method="POST" id = "form-api">
+        {% csrf_token %}
+        <label for="rollno">Enter Roll No</label>
+        <input type="number" name="rollno" id="rollno"><br><br>
+        <input type="submit" name="submit" id="submit">
+
+    </form>
+
+   <script>
+       const roll_no = document.getElementById("rollno").value
+        const apiUrl = `http://127.0.0.1:8000/fullstack/details/${roll_no}/`;
+       fetch()
+          .then(response => {
+            if (response.ok) {
+              return response.json(); // Parse the response data as JSON
+            } else {
+              throw new Error('API request failed');
+            }
+          })
+          .then(data => {
+            // Process the response data here
+            console.log(data); // Example: Logging the data to the console
+          })
+          .catch(error => {
+            // Handle any errors here
+            console.error(error); // Example: Logging the error to the console
+          });
+
+   </script>
+
+</body>
+</html>
